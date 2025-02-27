@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pymongo import MongoClient # type: ignore
 from dotenv import load_dotenv
 from bson import ObjectId # type: ignore
-from pydantic import BaseModel
+from pydantic import BaseModel # type: ignore
 from datetime import datetime
 import os
 
