@@ -1,25 +1,40 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+
+from sqlalchemy import Column, Integer, String, Boolean,ForeignKey, CheckConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
 
 Base = declarative_base()
 
 
-class UserModel(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    email = Column(String, nullable=False,unique=True, index=True)
-    password = Column(String)
+
+
+# class Address(Base):
+#     __tablename__ = "address"
     
+#     id = Column(Integer, primary_key=True, index=True)
+#     zip_code = Column(String, index=True)
+#     street = Column(String, nullable=True)
+#     city = Column(String, nullable=True)
+#     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
 
-
-class TodoModel(Base):
-    __tablename__ = 'todos'
+    
+class Users(Base):
+    __tablename__ = "users"
+    
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True, nullable=True)
-    description = Column(String, index=True)
-    status = Column(String, index=True)
+    name = Column(String, CheckConstraint('value > 5'),  index=True)
+    email = Column(String, CheckConstraint('email ~* "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"'), nullable=False, unique=True, ) # type: ignore
+    password = Column(String, nullable=True)
+
+
+
+
+class Todos(Base):
+    __tablename__ = "todos"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True, nullable=False)
+    description = Column(String, nullable=True)
     completed = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     
