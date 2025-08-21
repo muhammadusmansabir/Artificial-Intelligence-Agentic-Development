@@ -54,7 +54,11 @@ class AirlineAgentContext(BaseModel):
 @function_tool(
     name_override="faq_lookup_tool", description_override="Lookup frequently asked questions."
 )
-async def faq_lookup_tool(question: str) -> str:
+async def faq_lookup_tool(context: RunContextWrapper[AirlineAgentContext], question: str) -> str:
+    print("context", context.context.confirmation_number)
+    print("context", context.context.seat_number)
+    print("context", context.context.flight_number)
+    print("context", context.context.passenger_name)
     if "bag" in question or "baggage" in question:
         return (
             "You are allowed to bring one bag on the plane. "
